@@ -16,21 +16,28 @@ SINH_VIEN *newnode()
 void NHAP_SINH_VIEN(SINH_VIEN **SV)
 {
     int n;
-    printf("\n nhap so luong sinh vien:\t");
+    printf("\n Nhap so luong sinh vien:");
     scanf("%d", &n);
     getchar();
     for (int i = 0; i < n; i++)
     {
+        printf("\n<+=========================================================+>");
+        printf("\n||                      Sinh vien %d                       ||", i + 1);
+        printf("\n<+=========================================================+>");
         SINH_VIEN *sv = newnode();
-        printf("\n nhap ma so sv:\t");
+        printf("\n||Nhap ma so sinh vien:");
         scanf("%d", &sv->MSSV);
         getchar();
-        puts("\n nhap ten sinh vien:");
+        printf("\n||Nhap ten sinh vien  :"); // dùng puts thì tự động xuốngg dòng
         fgets(sv->HO_TEN, sizeof(sv->HO_TEN), stdin);
         sv->HO_TEN[strcspn(sv->HO_TEN, "\n")] = '\0';
-        printf("\n nhap GPA:\t");
-        scanf("%f", &sv->GPA);
-        getchar();
+        do
+        {
+            printf("\n||Nhap GPA (GPA<=4.0):");
+            scanf("%f", &sv->GPA);
+            getchar();
+        } while (sv->GPA < 0 || sv->GPA > 4.0);
+
         if (*SV == NULL)
         {
             *SV = sv;
@@ -53,8 +60,8 @@ void IN_SINH_VIEN(SINH_VIEN **SV)
         return;
     }
 
-    printf("\n<+=========================================================+>");
-    printf("\n|| STT||    MSSV      ||         Ho Ten             ||  GPA  ||");
+    printf("\n<+==========================================================+>");
+    printf("\n|| STT||    MSSV      ||         Ho Ten           ||   GPA  ||");
     printf("\n=============================================================");
 
     int count = 1;
@@ -66,7 +73,7 @@ void IN_SINH_VIEN(SINH_VIEN **SV)
         count++;
     }
 
-    printf("\n<+=========================================================+>");
+    printf("\n<+==========================================================+>");
 }
 
 void XOA_SINH_VIEN_THEO_MSSV(SINH_VIEN **SV)
@@ -77,7 +84,7 @@ void XOA_SINH_VIEN_THEO_MSSV(SINH_VIEN **SV)
         return;
     }
     int find;
-    printf("\n nhap MSSV cua sinh vien can xoa:\t");
+    printf("\n Nhap MSSV cua sinh vien can xoa:\t");
     scanf("%d", &find);
     getchar();
     SINH_VIEN *p, *prev;
@@ -108,7 +115,7 @@ void SUA_SV_THEO_MSSV(SINH_VIEN **SV)
         return;
     }
     int find;
-    printf("\n nhap MSSV cua sinh vien can sua:\t");
+    printf("\n Nhap MSSV cua sinh vien can sua:\t");
     scanf("%d", &find);
     getchar();
     SINH_VIEN *p;
@@ -116,14 +123,14 @@ void SUA_SV_THEO_MSSV(SINH_VIEN **SV)
     {
         if (p->MSSV == find)
         {
-            printf("\n nhap thong tin moi cho sinh vien co MSSV cu la:%d\t", p->MSSV);
-            printf("\n nhap MSSV moi:\t");
+            printf("\n Nhap thong tin moi cho sinh vien co MSSV cu la:%d\t", p->MSSV);
+            printf("\n Nhap MSSV moi:\t");
             scanf("%d", &p->MSSV);
             getchar();
-            puts("\n nhap ten moi:\t");
+            puts("\n Nhap ten moi:\t");
             fgets(p->HO_TEN, sizeof(p->HO_TEN), stdin);
             p->HO_TEN[strcspn(p->HO_TEN, "\n")] = '\0';
-            printf("\n nhap GPA moi:\t");
+            printf("\n Nhap GPA moi:\t");
             scanf("%f", &p->GPA);
             return;
         }
@@ -185,17 +192,18 @@ void TIM_KIEM_SV_THEO_TEN(SINH_VIEN **SV)
         return;
     }
     char find[50];
-    printf("\n nhap ten sinh vien can tim:\t");
+    printf("\n Nhap ten sinh vien can tim:\t");
     fgets(find, sizeof(find), stdin);
     find[strcspn(find, "\n")] = '\0';
     int flag = 0;
+    printf("\n <====Ket qua tim kiem=====>");
     for (SINH_VIEN *i = *SV; i != NULL; i = i->next)
     {
         if (strcasecmp(find, i->HO_TEN) == 0)
         {
-            printf("\n Sinh vien:\t%d", i->MSSV);
-            printf("\n Ten:\t%s", i->HO_TEN);
-            printf("\n GPA:\t%.2f", i->GPA);
+            printf("\n |Sinh vien:%d", i->MSSV);
+            printf("\n |Ten      :%s", i->HO_TEN);
+            printf("\n |GPA      :%.2f", i->GPA);
             flag++;
         }
     }
@@ -329,7 +337,7 @@ void MENU_CT()
         printf("\n|| 9. Luu danh sach sinh vien vao file              ||");
         printf("\n||10. Thoat chuong trinh                            ||");
         printf("\n<+==================================================+>");
-        printf("\nNhap lua chon cua ban: ");
+        printf("\n Nhap lua chon cua ban  : ");
 
         scanf("%d", &choice);
         getchar();
